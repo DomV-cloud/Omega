@@ -8,7 +8,8 @@ const context = [
     "/api/calendar/createEvent",
     "/api/calendar/events", 
     "/api/calendar/event/delete/",
-    "/api/calendar/event/put/"
+    "/api/calendar/event/put/",
+    "/user/delete/{id}"
 
 ];
 

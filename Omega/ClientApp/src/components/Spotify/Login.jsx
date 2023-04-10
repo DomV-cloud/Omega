@@ -54,11 +54,11 @@ function Login() {
                         <div className="w-full min-h-screen flex justify-center items-center">
                             <div class="text-center flex flex-col">
                                 <div class="hidden md:flex mx-auto flex flex-row items-center">
-                                    <p class="mr-4 text-white font-bold text-4xl flex">Let the music</p>
+                                    <p class="mr-4 text-white font-extrabold leading-tight text-4xl flex">Let the music</p>
                                     <div class="bg-white h-48 w-48 rounded-full overflow-hidden">
                                         <img src="Sources/img/assets/people_music_login.png" alt="people" class="object-cover w-full h-full" />
                                     </div>
-                                    <p class="ml-4 text-white font-bold text-4xl flex">carry you away</p>
+                                    <p class="ml-4 text-white font-extrabold leading-tight text-4xl flex">carry you away</p>
                                 </div>
 
                                 <div class="md:mr-8 md:mt-8 flex flex-row gap-4 justify-center items-center text-white text-center relative z-10">
