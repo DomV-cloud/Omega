@@ -125,6 +125,7 @@ namespace Omega.Models.DAOModels
                     command.Parameters.AddWithValue("@lname", user.Lname);
                     command.Parameters.AddWithValue("@email", user.Email);
                     command.Parameters.AddWithValue("@phone_number", user.Phone_number);
+                    command.Parameters.AddWithValue("@password", user.Password);
 
                     command.ExecuteNonQuery();
                 }

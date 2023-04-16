@@ -34,7 +34,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ClientApp\src\components\Calendar\CategoryController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Database\Singleton\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controllers\CategoryController.cs" />
   </ItemGroup>
 
   <ItemGroup>

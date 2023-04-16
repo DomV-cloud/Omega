@@ -5,7 +5,7 @@ const DeleteEvent = ({ event, onDelete, isOpen, onReload, onClose }) => {
 
     
     const handleDelete = () => {
-        alert("id:" + event.id);
+        alert("arou you sure you want to delet this event?")
         axios.delete(`/api/calendar/event/delete/${event.id}`).then(() => {
             onDelete(event);
             onReload(); // aktualizace událostí

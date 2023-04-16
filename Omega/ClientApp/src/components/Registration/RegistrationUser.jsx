@@ -197,6 +197,7 @@ const RegistrationUser = () => {
                       onChange={handlePasswordChange}
                       value={Password}
                       required
+                      
                   />
                   {passwordError && (
                       <p className="text-red-500 text-xs italic">{passwordError}</p>

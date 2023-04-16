@@ -100,6 +100,9 @@ namespace Omega.Controllers
         }
 
 
+
+
+
         [HttpPut("{eventId:int}")]
         [Route("/api/calendar/event/put/{eventId}")]
         public IActionResult Put(int eventId,[FromBody]Event eventData)
