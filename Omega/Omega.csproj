@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Configuration\" />
     <Folder Include="Database\Singleton\" />
   </ItemGroup>
 

@@ -9,6 +9,7 @@
     "ra-ui-materialui": "^4.8.3",
     "react-admin": "^4.8.3",
     "react-big-calendar": "^1.6.8",
-    "react-modal": "^3.16.1"
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.10.0"
   }
 }

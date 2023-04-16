@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Omega.Exceptions;
 using Omega.Models;
+using Omega.Models.DAOModels;
 using System.Data.SqlClient;
 
 namespace Omega.Controllers
@@ -9,6 +12,7 @@ namespace Omega.Controllers
     public class EventController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        DAOEvent events = new DAOEvent();
 
         public EventController(IConfiguration configuration)
         {
@@ -22,99 +26,98 @@ namespace Omega.Controllers
             return Ok();
         }
 
+
         [HttpGet]
-        [Route("/api/calendar/events")]
-        public IActionResult GetEvents()
+        [Route("/api/calendar/event/get/{eventId}")]
+        public IActionResult GetEvent(int eventId)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Omega_Conn")))
-                {
-                    connection.Open();
+                var eventElement = events.GetEventById(eventId);
+                return Ok(eventElement);
+                
+            }
+            catch (InvalidInput ex)
+            {
 
-                    string query = "SELECT * FROM Event_Test";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            List<EventDto> events = new List<EventDto>();
-                            while (reader.Read())
-                            {
-                                events.Add(new EventDto
-                                {
-                                    Id = (int)reader["Id"],
-                                    Description = (string)reader["Description"],
-                                    Date = (DateTime)reader["Date"]
-                                });
-                            }
-                            return Ok(events);
-                        }
-                    }
-                }
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
             catch (Exception ex)
             {
-                // log the exception or return an error response
+
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+
+        [HttpGet]
+        [Route("/api/calendar/events/{userId}")]
+        public IActionResult GetEvents(int userId)
+        {
+            try
+            {
+                var events = this.events.GetAllByUser(userId);
+                return Ok(events);
+            }
+            catch (InvalidInput ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
 
 
         [HttpPost]
-        [Route("/api/calendar/createEvent")]
-        public IActionResult Post(EventDto eventData)
+        [Route("/api/calendar/createEvent/{userId}")]
+        public IActionResult Post([FromBody] Event eventData, int userid)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Omega_Conn")))
+                
+                events.Save(new Event
                 {
-                    connection.Open();
-
-                    string query = "INSERT INTO Event_Test (Description, Date) VALUES (@description,@date )";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@description", eventData.Description);
-                        command.Parameters.AddWithValue("@date", eventData.Date);
-                        command.ExecuteNonQuery();
-                    }
-                }
-
-                return Ok();
+                    Event_name = eventData.Event_name,
+                    Event_date = eventData.Event_date,
+                    Fk_event_user = eventData.Fk_event_category,
+                    Fk_event_category = eventData.Fk_event_category,
+                }, userid, 1);
             }
-            catch (Exception ex)
+            catch (NullReferenceException ex)
             {
-                // log the exception or return an error response
+
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+            catch (InvalidInput ex)
+            {
+
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+            return Ok();
         }
 
 
-        [HttpPut("{id:int}")]
-        [Route("/api/calendar/event/put/{id}")]
-        public IActionResult Put(int id, [FromBody] EventDto eventData)
+        [HttpPut("{eventId:int}")]
+        [Route("/api/calendar/event/put/{eventId}")]
+        public IActionResult Put(int eventId,[FromBody]Event eventData)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Omega_Conn")))
-                {
-                    connection.Open();
-
-                    string query = "UPDATE Event_Test SET Description = @description, Date = @date WHERE Id = @id";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@id", id);
-                        command.Parameters.AddWithValue("@description", eventData.Description);
-                        command.Parameters.AddWithValue("@date", eventData.Date);
-                        command.ExecuteNonQuery();
-                    }
-                }
-
+                events.Update(eventData, eventId);
                 return Ok();
+            }
+            catch (InvalidInput ex)
+            {
+                // log the exception or return an error response
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
             catch (Exception ex)
             {
                 // log the exception or return an error response
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred: {ex.Message} {ex.StackTrace}");
             }
         }
 
@@ -124,19 +127,13 @@ namespace Omega.Controllers
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("Omega_Conn")))
-                {
-                    connection.Open();
-
-                    string query = "DELETE FROM Event_Test WHERE Id = @id";
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@id", id);
-                        command.ExecuteNonQuery();
-                    }
-                }
-
+                events.DeleteEventById(id);              
                 return Ok();
+            }
+            catch (InvalidInput ex)
+            {
+                // log the exception or return an error response
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
             catch (Exception ex)
             {

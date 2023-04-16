@@ -18,7 +18,7 @@ function FullComponent() {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(-1); // Nový stav
     const arr = [<DeleteEvent />, <EditEvent />]; // Nový stav
-
+    const [userId, setUserId] = useState(localStorage.getItem('userId')); // Nový stav
     const updateEvents = (updatedEvent) => {
         setEvents((prevEvents) =>
             prevEvents.map((event) => (event.id === updatedEvent.id ? updatedEvent : event))
@@ -63,31 +63,33 @@ function FullComponent() {
     };
 
 
-
+    //NEFUNGUJE, DODĚLAT!!!!!
     const handleReload = () => {
-        axios.get('/api/calendar/events').then((response) => {
+        axios.get(`/api/calendar/events/${userId}`).then((response) => {
             const mappedEvents = response.data.map((event) => ({
                 id: event.id,
-                title: event.description, // Use description as the event title
-                start: new Date(event.date),
+                title: event.event_name, // Use event_name as the event title
+                start: new Date(event.event_date),
                 allDay: true
             }));
             setEvents(mappedEvents);
-        })
+        });
     }
 
     useEffect(() => {
         // Fetch events from API endpoint and map them to FullCalendar event objects
-        axios.get('/api/calendar/events').then((response) => {
+        axios.get(`/api/calendar/events/${userId}`).then((response) => {
             const mappedEvents = response.data.map((event) => ({
                 id: event.id,
-                title: event.description, // Use description as the event title
-                start: new Date(event.date),
-                allDay: true 
+                title: event.event_name, // Use event_name as the event title
+                start: new Date(event.event_date),
+                allDay: true
             }));
             setEvents(mappedEvents);
         });
+
     }, []);
+
 
     const renderEventContent = (eventInfo) => {
         // Render the event title and description
@@ -128,6 +130,8 @@ function FullComponent() {
                     onClose={() => setIsCreateModalOpen(false)}
                     date={selectedDate}
                     onEventAdded={handleEventAdded}
+                    userId={userId}
+                    onReload={handleReload}
 
                 />
             )}
@@ -139,6 +143,7 @@ function FullComponent() {
                     onEventEdited={handleEventEdited}
                     handleUpdate={updateEvents}
                     onReload={handleReload}
+                    
                 />
             )}
 
@@ -156,7 +161,7 @@ function FullComponent() {
         </>
 
     );
-    // <Dictaphone/>
+
 }
 
 export default FullComponent;

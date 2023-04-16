@@ -1,49 +1,55 @@
 ﻿// Komponenta pro úpravu události
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Datepicker from "react-tailwindcss-datepicker";
 
 const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) => {
     const [id, setId] = useState(initialValues?.id || null);
-    const [description, setDescription] = useState(initialValues?.description || "");
-    const [date, setDate] = useState(initialValues?.date || "");
+    const [eventName, setEventName] = useState(initialValues?.eventName || "");
+    const [eventDate, setEventDate] = useState(initialValues?.eventDate || "");
+    const [category, setCategory] = useState(1);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const handleDescriptionChange = (event) => {
-        setDescription(event.target.value);
+    const handleEventChange = (event) => {
+        setEventName(event.target.value);
     };
 
     const handleDateChange = (event) => {
-        setDate(event.target.value);
+        setEventDate(event.target.value);
     };
-  
 
-   
+
     const onUpdate = (updatedEvent) => {
         axios
             .put(`/api/calendar/event/put/${updatedEvent.id}`, updatedEvent)
             .then((response) => {
                 // handle successful response
-                console.log(response.data);
-                handleUpdate(response.data);
+                console.log( "update:"+ updatedEvent.id);
+                
             })
             .catch((error) => {
                 // handle error response
                 console.log(error);
+                alert(error);
             });
     };
-    
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!description || !date) {
+        if (!eventName || !eventDate) {
             setErrorMessage("Please fill all the gaps");
             return;
         }
         const updatedEvent = {
             id: initialValues ? initialValues.id : null,
-            description,
-            date,
+            Event_name: eventName,
+            Event_date: eventDate,
+            Fk_event_category: category,
         };
-        console.log(id);
+        console.log("date:" + eventDate);
+        console.log("name:" + eventName);
+        console.log("category:" + category);
+        console.log("id:" + id);
         onUpdate(updatedEvent);
         onClose();
         onReload();
@@ -66,33 +72,31 @@ const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) =
                                     <h3 className="text-lg leading-6 font-medium text-gray-900">Edit Event</h3>
                                     <div className="mt-2">
                                         <form onSubmit={handleSubmit}>
+                                            <label htmlFor="eventName" className="block text-gray-700 font-bold mb-2">
+                                                Event Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="eventName"
+                                                name="eventName"
+                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                value={eventName}
+                                                onChange={handleEventChange}
+                                                maxLength={255}
+                                            />
+                                            {errorMessage && (
+                                                <p className="text-red-500 text-xs italic mt-2">{errorMessage}</p>
+                                            )}
                                             <div className="mb-4">
-                                                <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
-                                                    Description
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="description"
-                                                    name="description"
-                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                    value={description}
-                                                    onChange={handleDescriptionChange}
-                                                    maxLength={255}
-                                                />
-                                                {errorMessage && (
-                                                    <p className="text-red-500 text-xs italic mt-2">{errorMessage}</p>
-                                                )}
-                                            </div>
-                                            <div className="mb-4">
-                                                <label htmlFor="date" className="block text-gray-700 font-bold mb-2">
-                                                    Date
+                                                <label htmlFor="eventDate" className="block text-gray-700 font-bold mb-2">
+                                                    Event Date
                                                 </label>
                                                 <input
                                                     type="date"
-                                                    id="date"
-                                                    name="date"
+                                                    id="eventDate"
+                                                    name="eventDate"
                                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                    value={date}
+                                                    value={eventDate}
                                                     onChange={handleDateChange}
                                                 />
                                             </div>
@@ -113,6 +117,7 @@ const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) =
                                                 </button>
                                             </div>
                                         </form>
+                                        
                                     </div>
                                 </div>
                             </div>

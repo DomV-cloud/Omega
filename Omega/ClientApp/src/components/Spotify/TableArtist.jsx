@@ -14,7 +14,7 @@ function TableArtist({ accessToken, onSelectTopTrack }) {
     useEffect(() => {
         if (!accessToken) return alert("Failed OAUTH");
 
-        axios.get('https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks?fields=items(track(name%2C%20id%2C%20album(name%2C%20images%2C%20release_date)%2C%20artists))'
+        axios.get('https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks?fields=items(track(event_name%2C%20id%2C%20album(event_name%2C%20images%2C%20release_date)%2C%20artists))'
 , {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,

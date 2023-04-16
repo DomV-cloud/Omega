@@ -15,10 +15,11 @@ const Sidebar = () => {
         { name: "Calendar", link: "/home", icon: IoCalendarOutline },
         { name: "Voice assistent", link: "/voice-assistant", icon: MdOutlineKeyboardVoice },
         { name: "Music", link: "/spotify/auth", icon: IoMusicalNotesOutline, margin: true },
-        { name: "Tasks", link: "/", icon: BsCardChecklist },
         { name: "Setting", link: "/", icon: RiSettings4Line },
-        { name: "Logout", link: "/", icon: RiLogoutBoxLine }
+        { name: "Logout", link: "/api/user", icon: RiLogoutBoxLine }
     ];
+
+    
     const [open, setOpen] = useState(true);
     return (
         <section className="flex gap-6 ">

@@ -6,10 +6,11 @@ const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_H
 
 const context = [
     "/api/calendar/createEvent",
-    "/api/calendar/events", 
+    "/api/calendar/events/",
     "/api/calendar/event/delete/",
-    "/api/calendar/event/put/",
-    "/user/delete/{id}"
+    "/api/calendar/event/put/", 
+    "/api/user/registration",
+    "/api/user/auth"
 
 ];
 

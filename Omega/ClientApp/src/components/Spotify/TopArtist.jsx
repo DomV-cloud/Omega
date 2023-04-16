@@ -20,7 +20,7 @@ function TopArtists({ accessToken }) {
     useEffect(() => {
         if (!accessToken) return alert("Failed OAUTH");
 
-        axios.get('https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks?fields=items(track(name%2C%20id)%2C%20track(album(images)%2C%20artists))', {
+        axios.get('https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks?fields=items(track(event_name%2C%20id)%2C%20track(album(images)%2C%20artists))', {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             },
@@ -55,7 +55,7 @@ function TopArtists({ accessToken }) {
                     <MdVerified className="w-6 h-6 md:w-14 h-14" />
                     <h2 className="text-sm md:text-lg  ">Verified artist</h2>
                 </div>
-                {/* Artist name */}
+                {/* Artist event_name */}
                 <h2 className="ml-4 md:ml-6 text-lg md:text-4xl font-bold">{nameTopArtist}</h2>
                 {/* Monthly listeners */}
                 <h3 className="text-sm md:text-lg text-gray-300 ml-4 md:ml-6 ">{monthlyListeners} monthly listeners</h3>
