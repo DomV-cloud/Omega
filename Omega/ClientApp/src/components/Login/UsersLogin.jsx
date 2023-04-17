@@ -62,7 +62,7 @@ const UsersLogin = () => {
                         />
                     </div>
                     <div className="flex flex-col md:flex-row md:justify-between items-center md:mb-4">
-                        <button type="submit" className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 md:mb-0">
+                        <button type="submit" className="bg-primary  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 md:mb-0">
                             Log in
                         </button>
                         <button onClick={() => setRegisClicked(true)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
