@@ -5,7 +5,10 @@ import TrackSearchResult from './TrackSearchResult';
 import Dashboard from './Dashboard';
 import { RiSpotifyFill } from "react-icons/ri";
 
-
+/**
+ * Login Component
+ * @return {JSX.Element} Returns the JSX for the Login component
+ */
 function Login() {
     const CLIENT_ID = '3170e098c5f24e439eee9708091edc4b';
     const REDIRECT_URI = 'https://localhost:44435/spotify/dashboard';
@@ -16,6 +19,9 @@ function Login() {
     const [token, setToken] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    /**
+     * useEffect hook to check for token in local storage and handle redirections
+     */
     useEffect(() => {
         const hash = window.location.hash;
         let token = window.localStorage.getItem('token');
@@ -30,15 +36,22 @@ function Login() {
         setToken(token);
     }, []);
 
+    /**
+     * Function to handle logout and remove token from local storage
+     */
     const handleLogout = () => {
         window.localStorage.removeItem('token');
         setIsLoggedIn(false);
     };
 
+    /**
+     * Function to handle redirection to Spotify authorization endpoint
+     */
     const handleRedirect = () => {
         window.location.href = AUTH_ENDPOINT;
     }
 
+    // render UI component
     return (
         <div className={!isLoggedIn ? "bg-gradient-to-r from-purple-800 to-blue-600 w-full h-screen flex flex-col justify-center items-center relative" : "bg-white w-full h-screen flex flex-col justify-center items-center relative"}>
 

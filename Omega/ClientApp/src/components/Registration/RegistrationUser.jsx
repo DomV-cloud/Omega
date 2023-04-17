@@ -1,21 +1,29 @@
 ﻿import React, { useState } from "react";
 import axios from "axios";
 import PasswordStrengthBar from 'react-password-strength-bar';
-
+/**
+ * React component that creates registration form for user registration. 
+ * Components is handling errors and display them to user.
+ * @returns {JSX.RegistrationUser} form for user registration component
+ */
 const RegistrationUser = () => {
+
+
+    // State for form fields
     const [Fname, setFname] = useState("");
     const [Lname, setLname] = useState("");
     const [Email, setEmail] = useState("");
     const [PhoneNumber, setPhoneNumber] = useState("");
     const [Password, setPassword] = useState("");
 
-
+    // State for form errors
     const [firstNameError, setfirstNameError] = useState("");
     const [lastNameError, setLastNameError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [phoneNumberError, setphoneNumberError] = useState("");
     const [passwordError, setpasswordError] = useState("");
 
+    // Function to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -29,18 +37,21 @@ const RegistrationUser = () => {
             };
 
             const response = await axios.post("/api/user/registration", formData);
-            console.log(response.data); // zpracování odpovědi serveru
+            console.log(response.data); // Process server response
 
+            // Clear form fields
             setFname("");
             setLname("");
             setEmail("");
             setPhoneNumber("");
             setPassword("");
         } catch (error) {
-            console.log(error); // zpracování chyby
+            console.log(error); // error handling
         }
     };
 
+
+    // Functions to handle form field changes
     const handleFirstNameChange = (e) => {
         const value = e.target.value.trim();
         if (value.length <= 50) {
@@ -95,7 +106,7 @@ const RegistrationUser = () => {
 
     };
 
-
+    // Render form
 
   return (
     <div className="w-full max-w-md mx-auto mt-10">

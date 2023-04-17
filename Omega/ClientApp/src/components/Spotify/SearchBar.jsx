@@ -1,6 +1,9 @@
 ﻿import React, { useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+
+// Variants for animation of search results container and its items
+
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.5, delay: 0.2 } },
@@ -18,15 +21,35 @@ const itemVariants = {
     }),
 };
 
+/**
+
+A React component that allows the user to search for tracks on Spotify and choose one to play.
+@param {string} accessToken - The access token for the user's Spotify account.
+@param {function} chooseTrack - A callback function that takes a track URI as an argument and plays the selected track.
+@returns {JSX.Element} - A search bar component that displays the search results for the entered keyword and allows the user to choose a track to play.
+*/
 function SearchBar({ accessToken, chooseTrack }) {
+
+    //Initialization of the states
     const [searchKey, setSearchKey] = useState('');
     const [tracks, setTracks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [hasUserInput, setHasUserInput] = useState(false);
+    /**
+    * Handles the playing of a selected track.
+    * 
+    * @param {string} uri - The URI of the selected track.
+    */
+
     const handlePlay = (uri) => {
         chooseTrack(uri);
     };
 
+    /**
+    * Searches for tracks on Spotify using the entered search keyword.
+    * 
+    * @param {Event} e - The submit event of the search form.
+    */
     const searchTracks = async (e) => {
         e.preventDefault();
         setTracks([]);
@@ -61,13 +84,18 @@ function SearchBar({ accessToken, chooseTrack }) {
         setIsLoading(false);
     };
 
+    /**
+    * Handles the input change in the search bar.
+    * 
+    * @param {Event} e - The input change event of the search bar.
+    */
     const handleSearchInput = (e) => {
         setSearchKey(e.target.value);
         setHasUserInput(false);
     };
 
    
-
+    // render component UI
     return (
         <div className="flex justify-center">
             <div className="">

@@ -2,32 +2,57 @@
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
+/**
+ * CreateEvent component is responsible for creating and adding new events to the calendar.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Boolean} props.isOpen - Whether the modal for adding events is open or not.
+ * @param {Function} props.onClose - Function to close the modal.
+ * @param {Date} props.date - The date for which the event is being created.
+ * @param {Function} props.onEventAdded - Function to be called after the event has been added.
+ * @param {Number} props.userId - The ID of the user who is creating the event.
+ * @param {Function} props.onReload - Function to be called after the event has been added to reload the calendar.
+ * @returns {JSX.Element} - Returns the CreateEvent component.
+ */
 function CreateEvent({ isOpen, onClose, date, onEventAdded, userId, onReload }) {
+    // Define state variables for the event name, category ID, and error message.
     const [eventName, setEventName] = useState('');
     const [categoryid, setCategoryId] = useState(1);
     const [errorMessage, setErrorMessage] = useState('');
 
+    /**
+     * Handle form submission for adding a new event.
+     *
+     * @param {Object} e - The form submission event.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Validate the event name input.
         if (!eventName.trim()) {
             setErrorMessage('Event name is required.');
             return;
         }
 
         try {
+            // Create a new event object with the necessary data.
             const newEvent = {
                 event_name: eventName.trim(),
                 event_date: date.toISOString(),
                 fk_event_user: userId,
                 fk_event_category: categoryid
             };
+            // Send a POST request to the API to add the event.
             const response = await axios.post(`/api/calendar/createEvent/${userId}`, newEvent);
+            // Call the onEventAdded prop function to update the state of the calendar.
             onEventAdded(newEvent);
+            // Reset the event name and category ID inputs, error message, and close the modal.
             setEventName('');
             setCategoryId(1);
             setErrorMessage('');
             onClose();
+            // Call the onReload prop function to reload the calendar with the newly added event.
             onReload();
         } catch (error) {
             console.log(error);
@@ -35,14 +60,26 @@ function CreateEvent({ isOpen, onClose, date, onEventAdded, userId, onReload }) 
         }
     };
 
+    /**
+     * Handle changes to the event name input field.
+     *
+     * @param {Object} e - The input change event.
+     */
     const handleDescriptionChange = (e) => {
         setEventName(e.target.value);
         setErrorMessage('');
     };
 
+    /**
+     * Handle changes to the category ID input field.
+     *
+     * @param {Object} e - The input change event.
+     */
     const handleCategoryChange = (e) => {
         setCategoryId(e.target.value);
     };
+
+    // Render the CreateEvent component.
 
     return (
         <>

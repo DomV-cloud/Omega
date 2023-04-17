@@ -1,55 +1,84 @@
-﻿import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { BiTimeFive } from 'react-icons/bi'
+﻿import { useState, useEffect } from 'react';  // Import necessary React hooks
+import axios from 'axios';  // Import axios library for making HTTP requests
+import { BiTimeFive } from 'react-icons/bi'  // Import icon component from react-icons library
+
+/**
+ * TableArtist component displays a table of tracks from a Spotify playlist.
+ * Allows user to select a track and returns the track's URI to parent component.
+ * 
+ * @param {string} accessToken - Access token required for Spotify API requests.
+ * @param {function} onSelectTopTrack - Callback function to pass selected track URI to parent component.
+ * 
+ * @returns {JSX.Element} - TableArtist component JSX.
+ */
 function TableArtist({ accessToken, onSelectTopTrack }) {
+    // State for tracks array and track duration
     const [tracks, setTracks] = useState([]);
     const [trackDuration, setTrackDuration] = useState("");
 
-
+    /**
+     * Handles track selection by getting track URI and duration and passing URI to parent component.
+     * 
+     * @param {string} trackId - ID of selected track.
+     */
     const handleTrackSelect = (trackId) => {
         getTrackUri(trackId);
-
     };
 
+    /**
+     * Retrieves list of tracks from Spotify playlist using access token.
+     * Sets tracks state with response data.
+     */
     useEffect(() => {
+        // If access token is not available, show error alert
         if (!accessToken) return alert("Failed OAUTH");
 
-        axios.get('https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks?fields=items(track(event_name%2C%20id%2C%20album(event_name%2C%20images%2C%20release_date)%2C%20artists))'
-, {
+        // Send GET request to Spotify API to retrieve playlist tracks
+        axios.get('https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks?fields=items(track(event_name%2C%20id%2C%20album(event_name%2C%20images%2C%20release_date)%2C%20artists))', {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             },
-        }).then(response => {
-            setTracks(response.data.items);
-            
-        }).catch(error => {
-            console.error(error);
-        });
+        })
+            .then(response => {
+                // Set tracks state with array of tracks from response data
+                setTracks(response.data.items);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }, [accessToken]);
 
+    /**
+     * Retrieves track URI and duration using track ID from Spotify API.
+     * Calls onSelectTopTrack with URI and sets track duration state with response data.
+     * 
+     * @param {string} trackId - ID of selected track.
+     */
     const getTrackUri = (trackId) => {
+        // If access token is not available, show error alert
         if (!accessToken) return alert("Failed OAUTH");
 
+        // Send GET request to Spotify API to retrieve track data
         axios.get(`https://api.spotify.com/v1/tracks/${trackId}`, {
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
             },
         })
             .then(response => {
+                // Retrieve track URI and duration from response data
                 const trackUri = response.data.uri;
                 const trackLength = response.data;
+                // Call onSelectTopTrack with track URI and set track duration state
                 onSelectTopTrack(trackUri);
                 setTrackDuration(trackLength);
                 console.log(trackLength);
-
-                
-                
             })
             .catch(error => {
                 console.error(error);
             });
     };
 
+    // TableArtist component JSX
     return (
         <section className="container mx-auto p-6 ">
             <div className="w-full mb-8  overflow-hidden rounded-lg shadow-lg ">

@@ -16,12 +16,13 @@ namespace Omega.Models.DAOModels
                   .AddJsonFile("appsettings.json")
                   .Build();
         }
-    
+
         /// <summary>
         /// Returns a User object based on its ID. Throws an exception if the connection to the database fails or if there is no user with the given ID.
         /// </summary>
         /// <param name="id">The ID of the user to retrieve.</param>
         /// <returns>The User object with the specified ID.</returns>
+        /// <exception cref="InvalidInput">Thrown when the ID parameter is not a positive integer.</exception>
         public Users GetById(int id)
         {
             Users user = null;
@@ -59,7 +60,12 @@ namespace Omega.Models.DAOModels
             return user;
         }
 
-
+        /// <summary>
+        /// Authenticates a user based on their email and password. Returns a User object if authentication succeeds, null otherwise.
+        /// </summary>
+        /// <param name="email">The email of the user to authenticate.</param>
+        /// <param name="password">The password of the user to authenticate.</param>
+        /// <returns>A User object if authentication succeeds, null otherwise.</returns>
         public Users Authetication(string email, string password)
         {
             Users user = null;
@@ -99,7 +105,10 @@ namespace Omega.Models.DAOModels
             return user;
         }
 
-   
+        /// <summary>
+        /// Saves a user to the database.
+        /// </summary>
+        /// <param name="user">The User object to save to the database.</param>
         public void Save(Users user)
         {
             if (user == null)

@@ -2,11 +2,23 @@
 import axios from 'axios';
 import RegistrationUser from '../Registration/RegistrationUser';
 
+
+/**
+The UsersLogin component allows users to log in to the application or navigate to the RegistrationUser component.
+@returns A React component that renders a login form with an email and password input, and buttons for submitting the form or navigating to the registration form.
+If the "Registration" button is clicked, the component renders the RegistrationUser component instead of the login form.
+*/
 const UsersLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [regisClicked, setRegisClicked] = useState(false);
 
+    /**
+  * Handles the submission of the login form by sending an HTTP GET request to the server with the email and password entered by the user.
+  * If successful, stores the user's ID in localStorage and redirects to the home page.
+  * If unsuccessful, logs the error and displays an error message to the user.
+  * @param {Event} event The form submission event
+  */
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -19,7 +31,6 @@ const UsersLogin = () => {
             alert('User does not exist. Please check your credentials.');
         }
     };
-
 
 
     return (

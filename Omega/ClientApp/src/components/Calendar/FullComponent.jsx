@@ -8,23 +8,33 @@ import DeleteEvent from './DeleteEvent';
 import axios from 'axios';
 import Dictaphone from '../VoiceAssistant/Dictaphone';
 
-
+/**
+ * A React component that renders a FullCalendar instance and handles events
+ * and event editing through child components.
+ * 
+ * @returns {JSX.Element} The rendered FullCalendar component and its child components.
+ */
 function FullComponent() {
+
+    // Define state variables for handling events and their associated modals
     const [events, setEvents] = useState([]);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedEvent, setSelectedEvent] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(-1); // Nový stav
-    const arr = [<DeleteEvent />, <EditEvent />]; // Nový stav
-    const [userId, setUserId] = useState(localStorage.getItem('userId')); // Nový stav
+    const [selectedIndex, setSelectedIndex] = useState(-1);
+    const arr = [<DeleteEvent />, <EditEvent />];
+    const [userId, setUserId] = useState(localStorage.getItem('userId'));
+
+    // Define a function for updating events after they have been edited
     const updateEvents = (updatedEvent) => {
         setEvents((prevEvents) =>
             prevEvents.map((event) => (event.id === updatedEvent.id ? updatedEvent : event))
         );
     };
-    
+
+    // Define functions for handling clicks on calendar dates and events
     const handleDateClick = (arg) => {
         setSelectedDate(arg.date);
         setIsCreateModalOpen(true);
@@ -39,6 +49,7 @@ function FullComponent() {
         };
     };
 
+    // Define functions for handling adding, editing, and deleting events
     const handleEventAdded = (event) => {
         setEvents([...events, event]);
         setIsCreateModalOpen(false);
@@ -62,13 +73,12 @@ function FullComponent() {
         setIsDeleteModalOpen(true);
     };
 
-
-    //NEFUNGUJE, DODĚLAT!!!!!
+    // Define a function for reloading events from the server
     const handleReload = () => {
         axios.get(`/api/calendar/events/${userId}`).then((response) => {
             const mappedEvents = response.data.map((event) => ({
                 id: event.id,
-                title: event.event_name, // Use event_name as the event title
+                title: event.event_name,
                 start: new Date(event.event_date),
                 allDay: true
             }));
@@ -76,12 +86,12 @@ function FullComponent() {
         });
     }
 
+    // Use the useEffect hook to fetch events from the server when the component mounts
     useEffect(() => {
-        // Fetch events from API endpoint and map them to FullCalendar event objects
         axios.get(`/api/calendar/events/${userId}`).then((response) => {
             const mappedEvents = response.data.map((event) => ({
                 id: event.id,
-                title: event.event_name, // Use event_name as the event title
+                title: event.event_name,
                 start: new Date(event.event_date),
                 allDay: true
             }));
@@ -90,7 +100,7 @@ function FullComponent() {
 
     }, []);
 
-
+    // Define a function for rendering info about Event
     const renderEventContent = (eventInfo) => {
         // Render the event title and description
         return (
@@ -112,6 +122,9 @@ function FullComponent() {
             </>
         );
     };
+
+
+    
     return (
         <>
             

@@ -1,5 +1,8 @@
 ﻿namespace Omega.Exceptions
 {
+    /// <summary>
+    /// /Exception that is thrown when user enter Invalid inputs
+    /// </summary>
     public class InvalidInput : Exception
     {
         public InvalidInput() : base() { }

@@ -1,14 +1,27 @@
 ﻿import React from "react";
 import axios from "axios";
 
+/**
+ * Component for deleting an event.
+ * 
+ * @param {Object} props - The component's properties.
+ * @param {Object} props.event - The event to be deleted.
+ * @param {Function} props.onDelete - Callback function to be called after event deletion.
+ * @param {boolean} props.isOpen - Flag to indicate if the deletion modal should be shown.
+ * @param {Function} props.onReload - Callback function to be called after events are reloaded.
+ * @param {Function} props.onClose - Callback function to be called when the deletion modal is closed.
+ * @returns {JSX.Element} - The component's markup.
+ */
 const DeleteEvent = ({ event, onDelete, isOpen, onReload, onClose }) => {
 
-    
+    /**
+     * Handles the deletion of the event.
+     */
     const handleDelete = () => {
-        alert("arou you sure you want to delet this event?")
+        alert("Are you sure you want to delete this event?"); // Show confirmation message
         axios.delete(`/api/calendar/event/delete/${event.id}`).then(() => {
-            onDelete(event);
-            onReload(); // aktualizace událostí
+            onDelete(event); // Call the onDelete callback
+            onReload(); // Reload the events
         });
     };
 

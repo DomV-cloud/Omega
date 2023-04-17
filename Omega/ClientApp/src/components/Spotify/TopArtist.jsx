@@ -3,20 +3,22 @@ import axios from 'axios';
 import { MdVerified } from 'react-icons/md'
 
 /**
- * 
- * @param {any} param0
- * @returns
- */
+
+A component to display information about the top artist from a Spotify playlist
+
+@param {string} accessToken - The access token for the Spotify API
+
+@returns {JSX.Element} - The JSX code to render the component
+*/
+
 function TopArtists({ accessToken }) {
     //const [artists, setArtists] = useState([]);
     const [nameTopArtist, setnameTopArtist] = useState("");
     const [monthlyListeners, setmonthlyListeners] = useState("")
     const [artistImgUri, setArtistImgUri] = useState("");
 
-   
 
-
-    // Použití funkce v našem původním useEffect hooku pro získání umělcova obrázku a jeho odstranění pozadí
+   // Fetches the top artist's image and name from the Spotify API
     useEffect(() => {
         if (!accessToken) return alert("Failed OAUTH");
 
@@ -45,7 +47,7 @@ function TopArtists({ accessToken }) {
         });
     }, [accessToken]);
 
-
+    // Renders the component with artist information and image
     return (
         <div className="bg-primary h-screen w-full   rounded-lg  md:mr-8 md:mb-8  flex flex-row ">
             {/* Left side */}

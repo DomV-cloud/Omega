@@ -1,15 +1,27 @@
-﻿// Komponenta pro úpravu události
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Datepicker from "react-tailwindcss-datepicker";
 
+/**
+
+EditEvent is a React component that displays a modal dialog for editing an event.
+@param {object} initialValues - An object containing the initial values for the event being edited.
+@param {function} handleUpdate - A function to handle the update of the event after it has been edited.
+@param {function} onClose - A function to handle the closing of the modal dialog.
+@param {boolean} isOpen - A boolean value indicating whether the modal dialog is open or closed.
+@param {function} onReload - A function to handle the reloading of the page after an update has been made.
+@returns A React component that displays a modal dialog for editing an event.
+*/
 const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) => {
+    
+
+    // Component state variables to hold event data and error messages
     const [id, setId] = useState(initialValues?.id || null);
     const [eventName, setEventName] = useState(initialValues?.eventName || "");
     const [eventDate, setEventDate] = useState(initialValues?.eventDate || "");
     const [category, setCategory] = useState(1);
     const [errorMessage, setErrorMessage] = useState("");
 
+    // Event handlers for changes to input fields
     const handleEventChange = (event) => {
         setEventName(event.target.value);
     };
@@ -18,22 +30,23 @@ const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) =
         setEventDate(event.target.value);
     };
 
-
+    // Sends PUT request to server to update event
     const onUpdate = (updatedEvent) => {
         axios
             .put(`/api/calendar/event/put/${updatedEvent.id}`, updatedEvent)
             .then((response) => {
-                // handle successful response
-                console.log( "update:"+ updatedEvent.id);
-                
+                // Handle successful response (e.g. display success message)
+                console.log("update:" + updatedEvent.id);
+
             })
             .catch((error) => {
-                // handle error response
+                // Handle error response (e.g. display error message)
                 console.log(error);
                 alert(error);
             });
     };
 
+    // Submits updated event data to server and closes modal
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!eventName || !eventDate) {
@@ -54,6 +67,7 @@ const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) =
         onClose();
         onReload();
     };
+
 
     return (
         <>

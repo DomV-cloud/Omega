@@ -9,18 +9,24 @@ import { RiSettings4Line } from "react-icons/ri";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { Outlet } from 'react-router-dom';
 
+/**
+ * This component represents the sidebar menu that is displayed on the left side of the page.
+ * It contains menu items that users can click on to navigate to different sections of the application.
+ * @returns {JSX.Element} Sidebar component
+ */
 const Sidebar = () => {
+    // Define an array of menu items, each with a name, link, and icon.
     const menus = [
         { name: "Home", link: "/", icon: IoHomeOutline },
         { name: "Calendar", link: "/home", icon: IoCalendarOutline },
         { name: "Voice assistent", link: "/voice-assistant", icon: MdOutlineKeyboardVoice },
         { name: "Music", link: "/spotify/auth", icon: IoMusicalNotesOutline, margin: true },
-        { name: "Setting", link: "/", icon: RiSettings4Line },
         { name: "Logout", link: "/api/user", icon: RiLogoutBoxLine }
     ];
 
-    
+    // Define a state variable for the sidebar's open/closed state.
     const [open, setOpen] = useState(true);
+
     return (
         <section className="flex gap-6 ">
             <div
@@ -35,11 +41,7 @@ const Sidebar = () => {
                     />
                 </div>
                 <div className="mt-4 flex flex-col gap-4 relative">
-                    {/* 
-                    <div className="flex items-center justify-center w-14 h-14  ">
-                        <img src="/Sources/img/profile_img/avatar_default.jpg" alt="Logo" className="w-12 h-12   rounded-full" />
-                    </div>
-                    */}
+                    
                     {menus?.map((menu, i) => (
                         <a
                             href={menu?.link}
