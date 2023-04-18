@@ -4,6 +4,7 @@ import SpotifyPlayer from 'react-spotify-web-playback';
 import TrackSearchResult from './TrackSearchResult';
 import Dashboard from './Dashboard';
 import { RiSpotifyFill } from "react-icons/ri";
+import { motion } from "framer-motion";
 
 /**
  * Login Component
@@ -54,43 +55,36 @@ function Login() {
 
     // render UI component
     return (
-        <div className={!isLoggedIn ? "bg-gradient-to-r from-purple-800 to-blue-600 w-full h-screen flex flex-col justify-center items-center relative" : "bg-white w-full h-screen flex flex-col justify-center items-center relative"}>
-
+        <div className={`w-full min-h-screen ${!isLoggedIn ? "bg-gradient-to-r from-primary to-secondary" : "bg-white"}`}>
             <div class="w-full min-h-screen">
-                { token ? (
-                    <div className=" flex flex-col">
-                        
+                {token ? (
+                    <div className="flex flex-col">
                         <Dashboard accessToken={token} />
                     </div>
                 ) : (
-                    <div className="w-full min-h-screen flex justify-center items-center">
-                        <div class="text-center flex flex-col">
-                            <div class="hidden md:flex mx-auto flex flex-row items-center">
+                    <div class="w-full min-h-screen flex justify-center items-center">
+                        <div class="text-center flex flex-col relative">
+                            <div class="hidden md:flex mx-auto flex flex-row gap-12 items-center">
                                 <p class="mr-4 text-white font-extrabold leading-tight text-4xl flex">Let the music</p>
-                                <div class="bg-white h-48 w-48 rounded-full overflow-hidden">
-                                    <img src="Sources/img/assets/people_music_login.png" alt="people" class="object-cover w-full h-full" />
+                                <div class=" h-48 w-56 z-10 flex justify-center items-center">
+                                        <img src="Sources/img/assets/people_image.png" alt="people" class="object-cover h-full absolute bottom-28 mr-8  " />
                                 </div>
                                 <p class="ml-4 text-white font-extrabold leading-tight text-4xl flex">carry you away</p>
                             </div>
-
                             <div class="md:mr-8 md:mt-8 flex flex-row gap-4 justify-center items-center text-white text-center relative z-10">
-                                <button
-                                    class="bg-other text-white w-32 transition ease-in-out delay-150 duration-300 hover:-translate-y-1 hover:scale-110 duration-300  hover:border-none rounded-full font-bold py-2 px-6 text-lg ml-4 md:py-4 md:px-8  md:text-xl"
-                                    onClick={handleRedirect}
-                                >
+                                <button class="bg-other text-white w-32 transition ease-in-out delay-150 duration-300 hover:-translate-y-1 hover:scale-110 duration-300 hover:border-none rounded-full font-bold py-2 px-6 text-lg ml-4 md:py-4 md:px-8 md:text-xl" onClick={handleRedirect}>
                                     Login
                                 </button>
-
                                 <RiSpotifyFill className="md:hidden w-20 h-20 text-[#1DB954]" />
                             </div>
                         </div>
                     </div>
-
                 )}
             </div>
-
-
         </div>
+
+
+
     );
 }
 
