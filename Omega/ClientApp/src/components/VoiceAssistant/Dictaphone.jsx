@@ -1,5 +1,6 @@
 ﻿import React, { useEffect } from 'react';
 import alanBtn from '@alan-ai/alan-sdk-web';
+
 /**
 
 Dictaphone component that initializes the Alan AI SDK and listens for voice commands.

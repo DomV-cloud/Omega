@@ -2,6 +2,7 @@
 using Omega.Exceptions;
 using Omega.Models;
 using Omega.Models.DAOModels;
+using System.Data.SqlClient;
 
 namespace Omega.Controllers
 {
@@ -53,6 +54,10 @@ namespace Omega.Controllers
             catch (InvalidInput ex)
             {
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+            catch (SqlException ex)
+            {
+                return StatusCode(StatusCodes.Status406NotAcceptable, ex.Message);
             }
 
             return Ok();

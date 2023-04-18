@@ -20,6 +20,7 @@ const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) =
     const [eventDate, setEventDate] = useState(initialValues?.eventDate || "");
     const [category, setCategory] = useState(1);
     const [errorMessage, setErrorMessage] = useState("");
+    const [updatedValues, setUpdatedValues] = useState(initialValues);
 
     // Event handlers for changes to input fields
     const handleEventChange = (event) => {
@@ -36,7 +37,8 @@ const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) =
             .put(`/api/calendar/event/put/${updatedEvent.id}`, updatedEvent)
             .then((response) => {
                 // Handle successful response (e.g. display success message)
-                console.log("update:" + updatedEvent.id);
+                setId(updatedEvent.id); // Update ID in state
+                setUpdatedValues(updatedEvent); // Update other values in state
 
             })
             .catch((error) => {
@@ -117,7 +119,7 @@ const EditEvent = ({ initialValues, handleUpdate, onClose, isOpen, onReload }) =
                                             <div className="flex justify-end">
                                                 <button
                                                     type="submit"
-                                                    className="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                                    className="inline-flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                                     onClick={(event) => handleSubmit(event, id)}
                                                 >
                                                     Update

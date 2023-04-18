@@ -1,4 +1,6 @@
-﻿/**
+﻿
+
+/**
 
 A component that displays a search result of a track.
 

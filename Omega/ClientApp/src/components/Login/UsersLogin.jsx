@@ -46,6 +46,7 @@ const UsersLogin = () => {
                             id="email"
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
+                            required
                             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
@@ -58,14 +59,15 @@ const UsersLogin = () => {
                             id="password"
                             value={password}
                             onChange={(event) => setPassword(event.target.value)}
+                            required
                             className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
-                    <div className="flex flex-col md:flex-row md:justify-between items-center md:mb-4">
-                        <button type="submit" className="bg-primary  text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 md:mb-0">
+                    <div className="flex flex-col md:flex-row md:justify-between items-center md:mb-4 ">
+                        <button type="submit" className="bg-primary w-full md:w-auto hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2 md:mb-0">
                             Log in
                         </button>
-                        <button onClick={() => setRegisClicked(true)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <button onClick={() => setRegisClicked(true)} className="w-full  md:w-auto bg-secondary hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Registration
                         </button>
                     </div>

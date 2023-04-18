@@ -1,4 +1,9 @@
-﻿/**
+﻿import React, { useState } from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+
+
+/**
  * CategorySelect component allows the user to select a category from a list of options loaded from a remote API endpoint.
  * This component utilizes the useState and useEffect hooks from React to manage state and fetch data from the API.
  * It also uses the motion component from the Framer library to add animations to the dropdown menu.

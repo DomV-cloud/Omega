@@ -34,7 +34,8 @@ function Login() {
         }
 
         setToken(token);
-    }, []);
+    }, [isLoggedIn]); // add isLoggedIn as a dependency
+
 
     /**
      * Function to handle logout and remove token from local storage
@@ -56,45 +57,40 @@ function Login() {
         <div className={!isLoggedIn ? "bg-gradient-to-r from-purple-800 to-blue-600 w-full h-screen flex flex-col justify-center items-center relative" : "bg-white w-full h-screen flex flex-col justify-center items-center relative"}>
 
             <div class="w-full min-h-screen">
-                {isLoggedIn ? (
-                    <div className = " flex flex-col">
-                        <button class="bg-black hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={handleLogout}>
-                            Logout
-                        </button>
+                { token ? (
+                    <div className=" flex flex-col">
+                        
                         <Dashboard accessToken={token} />
                     </div>
                 ) : (
-                        <div className="w-full min-h-screen flex justify-center items-center">
-                            <div class="text-center flex flex-col">
-                                <div class="hidden md:flex mx-auto flex flex-row items-center">
-                                    <p class="mr-4 text-white font-extrabold leading-tight text-4xl flex">Let the music</p>
-                                    <div class="bg-white h-48 w-48 rounded-full overflow-hidden">
-                                        <img src="Sources/img/assets/people_music_login.png" alt="people" class="object-cover w-full h-full" />
-                                    </div>
-                                    <p class="ml-4 text-white font-extrabold leading-tight text-4xl flex">carry you away</p>
+                    <div className="w-full min-h-screen flex justify-center items-center">
+                        <div class="text-center flex flex-col">
+                            <div class="hidden md:flex mx-auto flex flex-row items-center">
+                                <p class="mr-4 text-white font-extrabold leading-tight text-4xl flex">Let the music</p>
+                                <div class="bg-white h-48 w-48 rounded-full overflow-hidden">
+                                    <img src="Sources/img/assets/people_music_login.png" alt="people" class="object-cover w-full h-full" />
                                 </div>
+                                <p class="ml-4 text-white font-extrabold leading-tight text-4xl flex">carry you away</p>
+                            </div>
 
-                                <div class="md:mr-8 md:mt-8 flex flex-row gap-4 justify-center items-center text-white text-center relative z-10">
-                                    <button
-                                        class="bg-other text-white w-32 transition ease-in-out delay-150 duration-300 hover:-translate-y-1 hover:scale-110 duration-300  hover:border-none rounded-full font-bold py-2 px-6 text-lg ml-4 md:py-4 md:px-8  md:text-xl"
-                                        onClick={handleRedirect}
-                                    >
-                                        Login
-                                    </button>
+                            <div class="md:mr-8 md:mt-8 flex flex-row gap-4 justify-center items-center text-white text-center relative z-10">
+                                <button
+                                    class="bg-other text-white w-32 transition ease-in-out delay-150 duration-300 hover:-translate-y-1 hover:scale-110 duration-300  hover:border-none rounded-full font-bold py-2 px-6 text-lg ml-4 md:py-4 md:px-8  md:text-xl"
+                                    onClick={handleRedirect}
+                                >
+                                    Login
+                                </button>
 
-                                    <RiSpotifyFill className="md:hidden w-20 h-20 text-[#1DB954]" />
-                                </div>
+                                <RiSpotifyFill className="md:hidden w-20 h-20 text-[#1DB954]" />
                             </div>
                         </div>
+                    </div>
 
                 )}
             </div>
-           
+
 
         </div>
-
-
-
     );
 }
 

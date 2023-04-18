@@ -6,3 +6,17 @@
 body{
     font-family: 'Open Sans';
 }
+
+.fc-toolbar-title {
+    color: black;
+}
+
+.fc-header-title {
+    color: black;
+    
+}
+
+.fc .fc-col-header-cell-cushion{
+    color: black;
+}
+

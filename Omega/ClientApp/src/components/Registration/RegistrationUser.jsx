@@ -1,6 +1,9 @@
 ﻿import React, { useState } from "react";
 import axios from "axios";
 import PasswordStrengthBar from 'react-password-strength-bar';
+import { useNavigate } from 'react-router-dom';
+import SuccessfulPopUp from "../Login/SuccessfulPopUp";
+import FailedRegistration from "../Login/FailedRegistration";
 /**
  * React component that creates registration form for user registration. 
  * Components is handling errors and display them to user.
@@ -15,6 +18,13 @@ const RegistrationUser = () => {
     const [Email, setEmail] = useState("");
     const [PhoneNumber, setPhoneNumber] = useState("");
     const [Password, setPassword] = useState("");
+
+    //State for Sucessful registration
+    const [isOkay, setIsOkay] = useState(false);
+
+    //States for failed registration
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     // State for form errors
     const [firstNameError, setfirstNameError] = useState("");
@@ -45,8 +55,15 @@ const RegistrationUser = () => {
             setEmail("");
             setPhoneNumber("");
             setPassword("");
+            setIsOkay(true);
+            setTimeout(() => {
+               window.location.href = ("/api/user");
+            }, 3000); // redirect after 3 seconds
         } catch (error) {
             console.log(error); // error handling
+            setShowErrorModal(true);
+            setErrorMessage(error.message);
+
         }
     };
 
@@ -102,13 +119,19 @@ const RegistrationUser = () => {
             setpasswordError("");
         } else {
             setpasswordError("Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and must be at least 8 characters long.")
+
         }
 
     };
 
+
+   
+
     // Render form
 
-  return (
+    return (
+
+        <>
     <div className="w-full max-w-md mx-auto mt-10">
       <form
         onSubmit={handleSubmit}
@@ -216,17 +239,38 @@ const RegistrationUser = () => {
                   <PasswordStrengthBar password={Password} />
               </div>
         <div className="flex items-center justify-center">
-          <button
-            className="bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Register
-                  </button>
-
+                 
+                  <button
+                      
+                          className="bg-primary w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                          type="submit"
+                      >
+                          Register
+                      </button>
+               
                   
         </div>
       </form>
     </div>
+
+            {isOkay &&
+                <SuccessfulPopUp />    
+            }
+
+            {showErrorModal && (
+                <div className="fixed z-10 inset-0 overflow-y-auto">
+                    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                       
+
+                        <FailedRegistration message={errorMessage} onClose={() => setShowErrorModal(false)} />
+                    </div>
+                </div>
+            )}
+
+
+
+        </>
+
   );
 };
 

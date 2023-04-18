@@ -18,11 +18,18 @@ const Sidebar = () => {
     // Define an array of menu items, each with a name, link, and icon.
     const menus = [
         { name: "Home", link: "/", icon: IoHomeOutline },
-        { name: "Calendar", link: "/home", icon: IoCalendarOutline },
+        { name: "Calendar", link: "/", icon: IoCalendarOutline },
         { name: "Voice assistent", link: "/voice-assistant", icon: MdOutlineKeyboardVoice },
         { name: "Music", link: "/spotify/auth", icon: IoMusicalNotesOutline, margin: true },
         { name: "Logout", link: "/api/user", icon: RiLogoutBoxLine }
     ];
+
+    // Logout handling, removes logging Items from Local Storage
+    const handleLogout = () => {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+        window.location.href = ('/api/user');
+    };
 
     // Define a state variable for the sidebar's open/closed state.
     const [open, setOpen] = useState(true);
@@ -48,6 +55,7 @@ const Sidebar = () => {
                             key={i}
                             className={` ${menu?.margin && "mt-5"
                                 } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-white rounded-md hover:text-secondary`}
+                            onClick={menu?.name === "Logout" ? handleLogout : null}
                         >
 
                             <div>{React.createElement(menu?.icon, { size: "20" })}</div>

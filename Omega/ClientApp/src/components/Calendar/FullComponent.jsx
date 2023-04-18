@@ -7,6 +7,7 @@ import EditEvent from './EditEvent';
 import DeleteEvent from './DeleteEvent';
 import axios from 'axios';
 import Dictaphone from '../VoiceAssistant/Dictaphone';
+import { black } from '../../../../../node_modules/picocolors/picocolors';
 
 /**
  * A React component that renders a FullCalendar instance and handles events
@@ -105,20 +106,22 @@ function FullComponent() {
         // Render the event title and description
         return (
             <>
-                <b>{eventInfo.timeText}</b>
-                <p>{eventInfo.event.title}</p>
-                {!isDeleteModalOpen && (
-                    <button
-                        onClick={() => {
-                            setSelectedEvent(eventInfo.event);
-                            setIsDeleteModalOpen(true);
-                            setIsEditModalOpen(false);
+                <div className = "flex flex-col md:flex-row gap-2 ">
+                    <b>{eventInfo.timeText}</b>
+                    <p>{eventInfo.event.title}</p>
+                    {!isDeleteModalOpen && (
+                        <button 
+                            onClick={() => {
+                                setSelectedEvent(eventInfo.event);
+                                setIsDeleteModalOpen(true);
+                                setIsEditModalOpen(false);
 
-                        }}
-                    >
-                        X
-                    </button>
-                )}
+                            }}
+                        >
+                            X
+                        </button>
+                    )}
+                </div>
             </>
         );
     };
@@ -135,7 +138,7 @@ function FullComponent() {
                 eventClick={handleEventClick}
                 events={events}
                 eventContent={renderEventContent} // Use custom event renderer
-
+                eventTextColor="white"
             />
             {isCreateModalOpen && (
                 <CreateEvent
