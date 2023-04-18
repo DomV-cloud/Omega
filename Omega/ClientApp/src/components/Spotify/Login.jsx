@@ -55,7 +55,7 @@ function Login() {
 
     // render UI component
     return (
-        <div className={`w-full min-h-screen ${!isLoggedIn ? "bg-gradient-to-r from-primary to-secondary" : "bg-white"}`}>
+        <div className={`w-full min-h-screen ${!token ? "bg-gradient-to-r from-primary to-secondary" : "bg-slate-300"}`}>
             <div class="w-full min-h-screen">
                 {token ? (
                     <div className="flex flex-col">

@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MdVerified } from 'react-icons/md'
-
+import { motion } from "framer-motion";
 /**
 
 A component to display information about the top artist from a Spotify playlist
@@ -10,6 +10,29 @@ A component to display information about the top artist from a Spotify playlist
 
 @returns {JSX.Element} - The JSX code to render the component
 */
+
+
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.5, delay: 0.2 } },
+};
+
+const iconVariants = {
+    hidden: { x: -50, opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.5, delay: 0.4 } },
+};
+
+const textVariants = {
+    hidden: { x: -50, opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.5, delay: 0.6 } },
+};
+
+const imageVariants = {
+    hidden: { x: 50, opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.5, delay: 0.8 } },
+};
+
 
 function TopArtists({ accessToken }) {
     //const [artists, setArtists] = useState([]);
@@ -49,28 +72,41 @@ function TopArtists({ accessToken }) {
 
     // Renders the component with artist information and image
     return (
-        <div className="bg-primary h-screen w-full   rounded-lg  md:mr-8 md:mb-8  flex flex-row ">
+        <motion.div
+            className=" bg-slate-300 h-screen w-full rounded-lg md:mr-8 md:mb-8 flex flex-row overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             {/* Left side */}
-            <div className="w-full  mt-4  gap-2 flex flex-col justify-left items-left">
+            <div className="w-full md:w-1/2 mt-4 flex flex-col justify-center text-primary items-center ">
                 {/* Verification icon */}
-                <div className="ml-2 flex flex-row justify-left items-center">
-                    <MdVerified className="w-6 h-6 md:w-14 h-14" />
-                    <h2 className="text-sm md:text-lg  ">Verified artist</h2>
+                <div className="flex flex-row justify-center items-center  mb-2">
+                    <MdVerified className="w-6 h-6 md:w-14 h-14  " />
+                    <h2 className="ml-2 text-sm md:text-lg ">Verified artist</h2>
                 </div>
                 {/* Artist event_name */}
-                <h2 className="ml-4 md:ml-6 text-lg md:text-4xl font-bold">{nameTopArtist}</h2>
+                <h2 className="text-2xl md:text-5xl font-bold text-center  mb-4">
+                    {nameTopArtist}
+                </h2>
                 {/* Monthly listeners */}
-                <h3 className="text-sm md:text-lg text-gray-300 ml-4 md:ml-6 ">{monthlyListeners} monthly listeners</h3>
+                <h3 className="text-sm md:text-lg text-blue-700 text-center">
+                    New 1# Artist on Spotify
+                </h3>
             </div>
             {/* Right side with image */}
-            <div className="w-100 h-100 d-flex align-items-center justify-content-end mr-4 mt-4 mb-4 ">
-                <img src={artistImgUri} alt="Artist" className="img-fluid img-thumbnail align-self-center rounded-full" style={{ maxHeight: "300px" }} />
+            <div className="w-full md:w-1/2 h-full flex justify-center items-center">
+                <motion.img
+                    src={artistImgUri}
+                    alt="Artist"
+                    className="img-fluid img-thumbnail rounded-full"
+                    style={{ maxHeight: "80%" }}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                />
             </div>
-
-
-        </div>
-
-
+        </motion.div>
 
 
     );

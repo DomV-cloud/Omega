@@ -80,7 +80,7 @@ function TableArtist({ accessToken, onSelectTopTrack }) {
 
     // TableArtist component JSX
     return (
-        <section className="container mx-auto p-6 ">
+        <section className="container mx-auto p-6 bg-slate-300 ">
             <div className="w-full mb-8  overflow-hidden rounded-lg shadow-lg ">
                 <div className="w-full overflow-x-auto ">
                     <table className="w-full  ">
@@ -88,7 +88,7 @@ function TableArtist({ accessToken, onSelectTopTrack }) {
                             <tr className="bg-secondary text-md font-semibold tracking-wide text-left text-white uppercase border-b border-gray-600">
                                 <th className="px-4 py-3">ID</th>
                                 <th className="px-4 py-3">Name</th>
-                                <th className="px-4 py-3">Album</th>
+                               
                                 <th className="px-4 py-3">Artist</th>
                                 <th className="px-4 py-3">Added</th>
                                 <th className="px-4 py-3"><BiTimeFive /></th>
@@ -112,7 +112,6 @@ function TableArtist({ accessToken, onSelectTopTrack }) {
                                         </div>
                                     </td>
 
-                                    <td className="px-4 py-3 text-ms font-semibold border">{track.track.album.name}</td>
                                     <td className="px-4 py-3 text-ms font-semibold border">{track.track.artists[0].name}</td>
                                     <td className="px-4 py-3 text-ms font-semibold border">{track.track.album.release_date}</td>
                                     <td className="px-4 py-3 text-ms font-semibold border">4:21</td>
